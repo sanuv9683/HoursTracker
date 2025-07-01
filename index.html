@@ -361,23 +361,47 @@
         Swal.fire({icon: 'success', title: 'PDF Downloaded', showConfirmButton: false, timer: 1500});
     });
 
-    shareWhatsappBtn.addEventListener('click', () => {
-        let msg = 'Time Tracker Report:%0A';
-        entries.forEach(e => {
+    shareWhatsappBtn.addEventListener('click', async () => {
+        // 1. Generate the PDF exactly as in your download handler
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text('Time Tracker Report', 14, 20);
+        const head = [['Date','Check-in','Check-out','Duration']];
+        const body = entries.map(e => {
             const [ih, im] = e.checkIn.split(':').map(Number);
             const [oh, om] = e.checkOut.split(':').map(Number);
-            const d = (oh * 60 + om) - (ih * 60 + im);
-            msg += `${e.date}: ${e.checkIn}-${e.checkOut} (${Math.floor(d / 60)}h ${d % 60}m)%0A`;
+            const d = (oh*60 + om) - (ih*60 + im);
+            return [e.date, e.checkIn, e.checkOut, `${Math.floor(d/60)}h ${d%60}m`];
         });
-        msg += `Monthly Total: ${monthlyTotalEl.textContent}`;
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
-        Swal.fire({
-            icon: 'info',
-            title: 'WhatsApp',
-            text: 'Sharing window opened',
-            showConfirmButton: false,
-            timer: 1500
-        });
+        doc.autoTable({ head, body, startY: 30 });
+        doc.text(`Monthly Total: ${monthlyTotalEl.textContent}`, 14, doc.lastAutoTable.finalY + 10);
+
+        // 2. Get the PDF as a Blob
+        const pdfBlob = doc.output('blob');
+
+        // 3. Wrap it in a File so share() can send it
+        const pdfFile = new File([pdfBlob], 'time-tracker-report.pdf', { type: 'application/pdf' });
+
+        // 4. Use the Web Share API
+        if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+            try {
+                await navigator.share({
+                    files: [pdfFile],
+                    title: 'Time Tracker Report',
+                    text: 'Here’s the report for this month’s time tracking.'
+                });
+                Swal.fire({ icon: 'success', title: 'Report shared!', showConfirmButton: false, timer: 1500 });
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Sharing failed', text: err.message });
+            }
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sharing not supported',
+                text: 'Your browser doesn’t support sharing files. You may need to update it or share manually.'
+            });
+        }
     });
 
     // Auto-set date input to today
