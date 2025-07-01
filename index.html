@@ -11,18 +11,10 @@
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    body { padding-top: 56px; padding-bottom: 80px; }
+    body { padding-top: 47px;padding-bottom: 80px; } /* space for bottom navbar */
     .navbar-brand { font-weight: 600; }
     .card { border-radius: .75rem; }
     .form-control, .form-floating > .form-control { height: calc(3rem + 2px); }
-    /* Sticky table header */
-    .table-responsive thead th {
-      position: sticky;
-      top: 56px;
-      z-index: 1020;
-      background-color: #0d6efd;
-      color: #fff;
-    }
     /* Modern floating buttons */
     .bottom-nav {
       position: fixed;
@@ -34,7 +26,7 @@
       justify-content: space-around;
       align-items: center;
       pointer-events: none;
-      box-shadow: 2px 9px 20px 0px rgba(0,0,0,0.2);
+      box-shadow: 2px 9px 20px 0px #231e1e;
     }
     .btn-floating {
       pointer-events: all;
@@ -49,28 +41,40 @@
       border: none;
       transition: transform 0.1s;
     }
-    .btn-floating:active { transform: scale(0.9); }
-    .btn-pdf { background: #4a90e2; box-shadow: 0 4px 8px rgba(74,144,226,0.4); }
-    .btn-whatsapp { background: #25D366; box-shadow: 0 4px 8px rgba(37,211,102,0.4); }
-    .btn-clear { background: #dc3545; box-shadow: 0 4px 8px rgba(220,53,69,0.4); }
+    .btn-floating:active {
+      transform: scale(0.9);
+    }
+    .btn-pdf {
+      background: #4a90e2;
+      box-shadow: 0 4px 8px rgba(74,144,226,0.4);
+    }
+    .btn-whatsapp {
+      background: #25D366;
+      box-shadow: 0 4px 8px rgba(37,211,102,0.4);
+    }
+    .btn-clear {
+      background: #dc3545;
+      box-shadow: 0 4px 8px rgba(220,53,69,0.4);
+    }
+
     /* Footer */
     .app-footer {
       position: fixed;
       bottom: 0;
       width: 100%;
       background: #f8f9fa;
-      padding: .5rem 0;
+      padding: 0;
       text-align: center;
       font-size: .875rem;
       color: #6c757d;
-      border-top: 1px solid #dee2e6;
+      border-top: 2px solid #dee2e6;
     }
     .app-footer a { color: #6c757d; text-decoration: none; }
     .app-footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-<!-- Fixed Header -->
+<!-- Header -->
 <nav class="navbar fixed-top navbar-dark bg-primary">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1">Sudu's Time Tracker</span>
@@ -141,7 +145,6 @@
     <i class="bi bi-trash"></i>
   </button>
 </div>
-
 <!-- Footer -->
 <footer class="app-footer">
   © 2025 All rights reserved. Developed by <a href="https://akrivo.uk" target="_blank" rel="noopener">akrivo.uk</a>
@@ -172,6 +175,7 @@
     entries.push({ date, checkIn, checkOut });
     localStorage.setItem('entries', JSON.stringify(entries));
     form.reset(); renderTable();
+    Swal.fire({ icon: 'success', title: 'Entry Added', showConfirmButton: false, timer: 1500 });
   });
 
   function renderTable() {
@@ -197,15 +201,16 @@
     doc.text('Time Tracker Report', 14, 20);
     const head = [['Date','Check-in','Check-out','Duration']];
     const body = entries.map(e => {
-      const [inH,inM] = e.checkIn.split(':').map(Number);
-      const [outH,outM] = e.checkOut.split(':').map(Number);
+      const [inH, inM] = e.checkIn.split(':').map(Number);
+      const [outH, outM] = e.checkOut.split(':').map(Number);
       const diff = (outH*60+outM)-(inH*60+inM);
-      const h=Math.floor(diff/60), m=diff%60;
-      return [e.date,e.checkIn,e.checkOut,`\${h}h \${m}m`];
+      const h = Math.floor(diff/60), m = diff%60;
+      return [e.date,e.checkIn,e.checkOut,`${h}h ${m}m`];
     });
     doc.autoTable({ head, body, startY:30 });
     doc.text(`Monthly Total: ${monthlyTotalEl.textContent}`,14, doc.lastAutoTable.finalY+10);
     doc.save('time-tracker-report.pdf');
+    Swal.fire({ icon: 'success', title: 'PDF Generated', text: 'Your report has been downloaded.', showConfirmButton: false, timer: 1500 });
   });
 
   shareWhatsappBtn.addEventListener('click', () => {
@@ -215,27 +220,27 @@
       const [outH,outM] = e.checkOut.split(':').map(Number);
       const diff=(outH*60+outM)-(inH*60+inM);
       const h=Math.floor(diff/60), m=diff%60;
-      msg+=`\${e.date}: \${e.checkIn}-\${e.checkOut} (\${h}h \${m}m)%0A`;
+      msg+=`${e.date}: ${e.checkIn}-${e.checkOut} (${h}h ${m}m)%0A`;
     });
     msg+=`Monthly Total: ${monthlyTotalEl.textContent}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    Swal.fire({ icon: 'info', title: 'WhatsApp', text: 'Sharing window opened', showConfirmButton: false, timer: 1500 });
   });
 
   clearDataBtn.addEventListener('click', () => {
     Swal.fire({
-      title: 'Clear all entries?\nThis cannot be undone.',
+      title: 'Are you sure?',
+      text: 'Clear all entries?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#dc3545',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Yes, clear',
+      confirmButtonText: 'Yes, clear it!',
       cancelButtonText: 'Cancel'
-    }).then(result => {
+    }).then((result) => {
       if (result.isConfirmed) {
-        entries = [];
+        entries=[];
         localStorage.removeItem('entries');
         renderTable();
-        Swal.fire({ icon: 'success', title: 'Cleared', text: 'All entries have been cleared.' });
+        Swal.fire({ icon: 'success', title: 'Cleared!', text: 'All entries have been removed', showConfirmButton: false, timer: 1500 });
       }
     });
   });
