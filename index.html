@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Time Tracker</title>
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -11,76 +11,229 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body { padding-top: 47px; padding-bottom: 80px; }
-        .navbar-brand { font-weight: 600; }
-        .card { border-radius: .75rem; }
-        .form-control, .form-floating > .form-control { height: calc(3rem + 2px); }
-        .bottom-nav { position: fixed; bottom: 23px; width: 100%; background: #fff; padding: .3rem 0; display: flex; justify-content: space-around; align-items: center; pointer-events: none; box-shadow: 2px 9px 20px 0px #231e1e; }
-        .btn-floating { pointer-events: all; width:50px; height:50px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:1.5rem; color:#fff; border:none; transition:transform .1s; }
-        .btn-floating:active{transform:scale(.9)}
-        .btn-pdf{background:#4a90e2; box-shadow:0 4px 8px rgba(74,144,226,0.4)}
-        .btn-whatsapp{background:#25D366; box-shadow:0 4px 8px rgba(37,211,102,0.4)}
-        .btn-clear{background:#dc3545; box-shadow:0 4px 8px rgba(220,53,69,0.4)}
-        .app-footer{position:fixed;bottom:0;width:100%;background:#f8f9fa;padding:0;text-align:center;font-size:.875rem;color:#6c757d;border-top:2px solid #dee2e6;}
-        .app-footer a{color:#6c757d;text-decoration:none;}.app-footer a:hover{text-decoration:underline;}
-        #entriesTable{font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;font-size:.95rem;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:.5rem;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-        #entriesTable thead th{background:linear-gradient(90deg,#4a90e2,#357ABD);color:#fff;text-transform:uppercase;letter-spacing:.05em;border:none}
-        #entriesTable tbody tr:nth-child(even){background:#f7f9fc}
-        #entriesTable td,#entriesTable th{vertical-align:middle;border-bottom:1px solid #e9ecef}
-        #entriesTable tfoot th{background:#f1f3f5;border-top:2px solid #dee2e6;padding:.75rem 1rem}
-        .action-btn{margin:0 .2rem;font-size:.9rem;color:#495057;background:transparent;border:none;padding:0}
-        .action-btn:hover{color:#212529}
+        body {
+            padding-top: 47px;
+            padding-bottom: 80px;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+        }
+
+        .card {
+            border-radius: .75rem;
+        }
+
+        .form-control, .form-floating > .form-control {
+            height: calc(3rem + 2px);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 23px;
+            width: 100%;
+            background: #fff;
+            padding: .3rem 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            pointer-events: none;
+            box-shadow: 2px 9px 20px 0px #231e1e;
+        }
+
+        .btn-floating {
+            pointer-events: all;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            border: none;
+            transition: transform .1s;
+        }
+
+        .btn-floating:active {
+            transform: scale(.9)
+        }
+
+        .btn-pdf {
+            background: #4a90e2;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.4)
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            box-shadow: 0 4px 8px rgba(37, 211, 102, 0.4)
+        }
+
+        .btn-clear {
+            background: #dc3545;
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4)
+        }
+
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #f8f9fa;
+            padding: 0;
+            text-align: center;
+            font-size: .875rem;
+            color: #6c757d;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .app-footer a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+
+        #entriesTable {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-size: .95rem;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: .5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1)
+        }
+
+        #entriesTable thead th {
+            background: linear-gradient(90deg, #4a90e2, #357ABD);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            border: none
+        }
+
+        #entriesTable tbody tr:nth-child(even) {
+            background: #f7f9fc
+        }
+
+        #entriesTable td, #entriesTable th {
+            vertical-align: middle;
+            border-bottom: 1px solid #e9ecef
+        }
+
+        #entriesTable tfoot th {
+            background: #f1f3f5;
+            border-top: 2px solid #dee2e6;
+            padding: .75rem 1rem
+        }
+
+        .action-btn {
+            margin: 0 .2rem;
+            font-size: .9rem;
+            color: #495057;
+            background: transparent;
+            border: none;
+            padding: 0
+        }
+
+        .action-btn:hover {
+            color: #212529
+        }
+
+        .table > thead {
+            font-size: 10px;
+        }
+
+        .table > tbody {
+            font-size: 10px;
+        }
+
+        tfoot {
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
-<nav class="navbar fixed-top navbar-dark bg-primary"><div class="container-fluid"><span class="navbar-brand mb-0 h1">Sudu's Time Tracker</span></div></nav>
+<nav class="navbar fixed-top navbar-dark bg-primary">
+    <div class="container-fluid"><span class="navbar-brand mb-0 h1">Sudu's Time Tracker</span></div>
+</nav>
 <main class="container-fluid mt-3 px-2">
-    <div class="card mb-3 shadow-sm"><div class="card-body">
-        <form id="entryForm" class="row g-2">
-            <input type="hidden" id="editIndex" value="-1">
-            <div class="col-12">
-                <div class="form-floating">
-                    <input type="date" class="form-control" id="workDate" placeholder="Date" required>
-                    <label for="workDate">Date</label>
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+            <form class="row g-2" id="entryForm">
+                <input id="editIndex" type="hidden" value="-1">
+                <div class="col-12">
+                    <div class="form-floating">
+                        <input class="form-control" id="workDate" placeholder="Date" required type="date">
+                        <label for="workDate">Date</label>
+                    </div>
                 </div>
-            </div>
-            <!-- Check-in group -->
-            <div class="col-md-6">
-                <div class="input-group">
-                    <button type="button" class="btn btn-outline-success" id="btnCheckIn"><i class="bi bi-box-arrow-in-right"></i> In</button>
-                    <input type="time" class="form-control" id="timeCheckIn" name="checkIn" required>
+                <!-- Check-in group -->
+                <div class="col-6">
+                    <div class="input-group">
+                        <button class="btn btn-outline-success" id="btnCheckIn" type="button"><i
+                                class="bi bi-box-arrow-in-right"></i> In
+                        </button>
+                        <input class="form-control" id="timeCheckIn" name="checkIn" required type="time">
+                    </div>
                 </div>
-            </div>
-            <!-- Check-out group -->
-            <div class="col-md-6">
-                <div class="input-group">
-                    <button type="button" class="btn btn-outline-danger" id="btnCheckOut" disabled><i class="bi bi-box-arrow-right"></i> Out</button>
-                    <input type="time" class="form-control" id="timeCheckOut" name="checkOut" required disabled>
+                <!-- Check-out group -->
+                <div class="col-6">
+                    <div class="input-group">
+                        <button class="btn btn-outline-danger" disabled id="btnCheckOut" type="button"><i
+                                class="bi bi-box-arrow-right"></i> Out
+                        </button>
+                        <input class="form-control" disabled id="timeCheckOut" name="checkOut" required type="time">
+                    </div>
                 </div>
-            </div>
-            <!-- Live timer -->
-            <div class="col-12 text-center"><span id="liveTimer" class="fw-bold">Elapsed: 00:00:00</span></div>
-            <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> <span id="formBtnText">Add Entry</span></button>
-            </div>
-        </form>
-    </div></div>
+                <!-- Live timer -->
+                <div class="col-6 text-center"><span class="fw-bold" id="liveTimer">Elapsed: 00:00:00</span></div>
+                <div class="col-6 text-end">
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i> <span id="formBtnText">Add Entry</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="table-responsive mb-5">
-        <table class="table" id="entriesTable"><thead><tr><th>Date</th><th>Check-in</th><th>Check-out</th><th>Duration</th><th>Actions</th></tr></thead><tbody></tbody><tfoot><tr><th colspan="3" class="text-end">Monthly Total</th><th id="monthlyTotal">0h 0m</th><th></th></tr></tfoot></table>
+        <table class="table" id="entriesTable">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Duration</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+            <tr>
+                <th class="text-end" colspan="3">Monthly Total</th>
+                <th id="monthlyTotal">0h 0m</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
     </div>
 </main>
 <div class="bottom-nav">
-    <button id="generatePdf" class="btn-floating btn-pdf" aria-label="Generate PDF"><i class="bi bi-file-earmark-text"></i></button>
-    <button id="shareWhatsapp" class="btn-floating btn-whatsapp" aria-label="Share on WhatsApp"><i class="bi bi-whatsapp"></i></button>
-    <button id="clearData" class="btn-floating btn-clear" aria-label="Clear all entries"><i class="bi bi-trash"></i></button>
+    <button aria-label="Generate PDF" class="btn-floating btn-pdf" id="generatePdf"><i
+            class="bi bi-file-earmark-text"></i></button>
+    <button aria-label="Share on WhatsApp" class="btn-floating btn-whatsapp" id="shareWhatsapp"><i
+            class="bi bi-whatsapp"></i></button>
+    <button aria-label="Clear all entries" class="btn-floating btn-clear" id="clearData"><i class="bi bi-trash"></i>
+    </button>
 </div>
-<footer class="app-footer">© 2025 All rights reserved. Developed by <a href="https://akrivo.uk" target="_blank" rel="noopener">akrivo.uk</a></footer>
+<footer class="app-footer">© 2025 All rights reserved. Developed by <a href="https://akrivo.uk" rel="noopener"
+                                                                       target="_blank">akrivo.uk</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 <script>
     const TODAY = new Date().toISOString().split('T')[0];
-    let entries = JSON.parse(localStorage.getItem('entries')||'[]');
+    let entries = JSON.parse(localStorage.getItem('entries') || '[]');
     let startTime = null, timerInt = null;
     let btnIn, btnOut, inInput, outInput, liveDisplay;
     const form = document.getElementById('entryForm');
@@ -97,8 +250,8 @@
     }
 
     function fmt(sec) {
-        const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60;
-        return [h,m,s].map(n=>String(n).padStart(2,'0')).join(':');
+        const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+        return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
     }
 
     function finalizeCheckOut() {
@@ -106,7 +259,7 @@
         localStorage.removeItem('currentCheckIn');
         btnOut.disabled = true;
         btnIn.disabled = false;
-        liveDisplay.textContent = 'Elapsed: 00:00:00';
+        liveDisplay.textContent = 'Hours working: 00:00:00';
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -121,7 +274,7 @@
         const stored = localStorage.getItem('currentCheckIn');
         if (stored) {
             startTime = new Date(stored);
-            inInput.value = startTime.toTimeString().substr(0,5);
+            inInput.value = startTime.toTimeString().substr(0, 5);
             btnIn.disabled = true;
             btnOut.disabled = false;
             outInput.disabled = false;
@@ -130,13 +283,13 @@
         }
 
         function updateTimer() {
-            liveDisplay.textContent = `Elapsed: ${fmt(Math.floor((new Date()-startTime)/1000))}`;
+            liveDisplay.textContent = `Hours Working: ${fmt(Math.floor((new Date() - startTime) / 1000))}`;
         }
 
         btnIn.addEventListener('click', () => {
             startTime = new Date();
             localStorage.setItem('currentCheckIn', startTime.toISOString());
-            inInput.value = startTime.toTimeString().substr(0,5);
+            inInput.value = startTime.toTimeString().substr(0, 5);
             btnIn.disabled = true;
             btnOut.disabled = false;
             outInput.disabled = false;
@@ -145,14 +298,15 @@
         });
 
         btnOut.addEventListener('click', () => {
-            outInput.value = new Date().toTimeString().substr(0,5);
+            outInput.value = new Date().toTimeString().substr(0, 5);
             finalizeCheckOut();
             form.requestSubmit();
         });
 
         inInput.addEventListener('change', () => {
-            const [h,m] = inInput.value.split(':').map(Number);
-            startTime = new Date(); startTime.setHours(h,m,0,0);
+            const [h, m] = inInput.value.split(':').map(Number);
+            startTime = new Date();
+            startTime.setHours(h, m, 0, 0);
             localStorage.setItem('currentCheckIn', startTime.toISOString());
         });
 
@@ -166,17 +320,17 @@
             const checkIn = inInput.value;
             const checkOut = outInput.value;
             if (checkOut <= checkIn) {
-                Swal.fire({ icon:'error', title:'Invalid Time', text:'Check-out must be after check-in' });
+                Swal.fire({icon: 'error', title: 'Invalid Time', text: 'Check-out must be after check-in'});
                 return;
             }
-            const entry = { date, checkIn, checkOut };
+            const entry = {date, checkIn, checkOut};
             const idx = +editIndex.value;
             if (idx >= 0) {
                 entries[idx] = entry;
-                Swal.fire({ icon:'success', title:'Entry Updated', timer:1500, showConfirmButton:false });
+                Swal.fire({icon: 'success', title: 'Entry Updated', timer: 1500, showConfirmButton: false});
             } else {
                 entries.push(entry);
-                Swal.fire({ icon:'success', title:'Entry Added', timer:1500, showConfirmButton:false });
+                Swal.fire({icon: 'success', title: 'Entry Added', timer: 1500, showConfirmButton: false});
             }
             localStorage.setItem('entries', JSON.stringify(entries));
             form.reset();
@@ -191,7 +345,12 @@
         });
 
         clearBtn.addEventListener('click', () => {
-            Swal.fire({ title:'Are you sure?', icon:'warning', showCancelButton:true, confirmButtonText:'Yes, clear it!' })
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, clear it!'
+            })
                 .then(r => {
                     if (r.isConfirmed) {
                         entries = [];
@@ -199,7 +358,7 @@
                         renderTable();
                         form.reset();
                         resetDate();
-                        Swal.fire({ icon:'success', title:'Cleared!', timer:1500, showConfirmButton:false });
+                        Swal.fire({icon: 'success', title: 'Cleared!', timer: 1500, showConfirmButton: false});
                     }
                 });
         });
@@ -209,12 +368,12 @@
     function renderTable() {
         tableBody.innerHTML = '';
         let tot = 0;
-        entries.forEach((e,i) => {
-            const [ih,im] = e.checkIn.split(':').map(Number);
-            const [oh,om] = e.checkOut.split(':').map(Number);
-            const diff = (oh*60+om)-(ih*60+im);
+        entries.forEach((e, i) => {
+            const [ih, im] = e.checkIn.split(':').map(Number);
+            const [oh, om] = e.checkOut.split(':').map(Number);
+            const diff = (oh * 60 + om) - (ih * 60 + im);
             tot += diff;
-            const h = Math.floor(diff/60), m = diff%60;
+            const h = Math.floor(diff / 60), m = diff % 60;
             const tr = document.createElement('tr');
             tr.innerHTML = `
         <td>${e.date}</td>
@@ -227,17 +386,19 @@
         </td>`;
             tableBody.appendChild(tr);
         });
-        const MH = Math.floor(tot/60), MM = tot%60;
+        const MH = Math.floor(tot / 60), MM = tot % 60;
         monthlyTotalEl.textContent = `${MH}h ${MM}m`;
     }
 
     window.deleteEntry = i => {
-        Swal.fire({ title:'Delete this entry?', icon:'warning', showCancelButton:true, confirmButtonText:'Delete' })
-            .then(res => { if (res.isConfirmed) {
-                entries.splice(i,1);
-                localStorage.setItem('entries', JSON.stringify(entries));
-                renderTable();
-            }});
+        Swal.fire({title: 'Delete this entry?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete'})
+            .then(res => {
+                if (res.isConfirmed) {
+                    entries.splice(i, 1);
+                    localStorage.setItem('entries', JSON.stringify(entries));
+                    renderTable();
+                }
+            });
     };
     window.editEntry = i => {
         const e = entries[i];
@@ -252,26 +413,57 @@
     };
 
     genPdf.addEventListener('click', () => {
-        const { jsPDF } = window.jspdf;
+        const {jsPDF} = window.jspdf;
         const doc = new jsPDF();
         doc.setFontSize(18);
-        doc.text('Time Tracker Report',14,20);
-        const head=[['Date','Check-in','Check-out','Duration']];
-        const body=entries.map(e=>{const[ih,im]=e.checkIn.split(':').map(Number);const[oh,om]=e.checkOut.split(':').map(Number);const d=(oh*60+om)-(ih*60+im);return[e.date,e.checkIn,e.checkOut,`${Math.floor(d/60)}h ${d%60}m`];});
-        doc.autoTable({head,body,startY:30});
-        doc.text(`Monthly Total: ${monthlyTotalEl.textContent}`,14,doc.lastAutoTable.finalY+10);
+        doc.text('Time Tracker Report', 14, 20);
+        const head = [['Date', 'Check-in', 'Check-out', 'Duration']];
+        const body = entries.map(e => {
+            const [ih, im] = e.checkIn.split(':').map(Number);
+            const [oh, om] = e.checkOut.split(':').map(Number);
+            const d = (oh * 60 + om) - (ih * 60 + im);
+            return [e.date, e.checkIn, e.checkOut, `${Math.floor(d / 60)}h ${d % 60}m`];
+        });
+        doc.autoTable({head, body, startY: 30});
+        doc.text(`Monthly Total: ${monthlyTotalEl.textContent}`, 14, doc.lastAutoTable.finalY + 10);
         doc.save('time-tracker-report.pdf');
-        Swal.fire({ icon:'success', title:'PDF Downloaded', timer:1500, showConfirmButton:false });
+        Swal.fire({icon: 'success', title: 'PDF Downloaded', timer: 1500, showConfirmButton: false});
     });
 
-    shareBtn.addEventListener('click', async ()=>{
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF(); doc.setFontSize(18); doc.text('Time Tracker Report',14,20);
-        const head=[['Date','Check-in','Check-out','Duration']];
-        const body=entries.map(e=>{const[ih,im]=e.checkIn.split(':').map(Number);const[oh,om]=e.checkOut.split(':').map(Number);const d=(oh*60+om)-(ih*60+im);return[e.date,e.checkIn,e.checkOut,`${Math.floor(d/60)}h ${d%60}m`];});
-        doc.autoTable({head,body,startY:30}); doc.text(`Monthly Total: ${monthlyTotalEl.textContent}`,14,doc.lastAutoTable.finalY+10);
-        const blob=doc.output('blob');const file=new File([blob],'time-tracker-report.pdf',{type:'application/pdf'});
-        if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'Time Tracker Report',text:'Here’s the report for this month’s time tracking.'});Swal.fire({icon:'success',title:'Report shared!',timer:1500,showConfirmButton:false});}catch(err){Swal.fire({icon:'error',title:'Sharing failed',text:err.message});}}else{Swal.fire({icon:'warning',title:'Sharing not supported',text:'Your browser doesn’t support sharing files. You may need to update it or share manually.'});}
+    shareBtn.addEventListener('click', async () => {
+        const {jsPDF} = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text('Time Tracker Report', 14, 20);
+        const head = [['Date', 'Check-in', 'Check-out', 'Duration']];
+        const body = entries.map(e => {
+            const [ih, im] = e.checkIn.split(':').map(Number);
+            const [oh, om] = e.checkOut.split(':').map(Number);
+            const d = (oh * 60 + om) - (ih * 60 + im);
+            return [e.date, e.checkIn, e.checkOut, `${Math.floor(d / 60)}h ${d % 60}m`];
+        });
+        doc.autoTable({head, body, startY: 30});
+        doc.text(`Monthly Total: ${monthlyTotalEl.textContent}`, 14, doc.lastAutoTable.finalY + 10);
+        const blob = doc.output('blob');
+        const file = new File([blob], 'time-tracker-report.pdf', {type: 'application/pdf'});
+        if (navigator.canShare && navigator.canShare({files: [file]})) {
+            try {
+                await navigator.share({
+                    files: [file],
+                    title: 'Time Tracker Report',
+                    text: 'Here’s the report for this month’s time tracking.'
+                });
+                Swal.fire({icon: 'success', title: 'Report shared!', timer: 1500, showConfirmButton: false});
+            } catch (err) {
+                Swal.fire({icon: 'error', title: 'Sharing failed', text: err.message});
+            }
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sharing not supported',
+                text: 'Your browser doesn’t support sharing files. You may need to update it or share manually.'
+            });
+        }
     });
 
     renderTable();
