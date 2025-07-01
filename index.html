@@ -354,22 +354,65 @@
         });
 
         clearBtn.addEventListener('click', () => {
+            // First, ask for the password
             Swal.fire({
-                title: 'Are you sure?',
-                icon: 'warning',
+                title: 'Enter password to clear all',
+                input: 'password',
+                inputPlaceholder: 'Password',
+                inputAttributes: {
+                    autocapitalize: 'off',
+                    autocorrect: 'off'
+                },
                 showCancelButton: true,
-                confirmButtonText: 'Yes, clear it!'
-            })
-                .then(r => {
+                confirmButtonText: 'Unlock',
+                cancelButtonText: 'Cancel'
+            }).then(({ value: pwd, isConfirmed }) => {
+                if (!isConfirmed) return;           // user cancelled
+                if (pwd !== 'sanu1234') {
+                    // wrong password
+                    Swal.fire({ icon: 'error', title: 'Wrong password', timer: 1500, showConfirmButton: false });
+                    return;
+                }
+                // password OK → confirm wipe
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This will delete all entries and reset timers.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, clear everything'
+                }).then(r => {
                     if (r.isConfirmed) {
+                        // 1. Clear stored entries and check-in timestamp
                         entries = [];
                         localStorage.removeItem('entries');
-                        renderTable();
+                        localStorage.removeItem('currentCheckIn');
+
+                        // 2. Stop any running timer
+                        if (timerInt) {
+                            clearInterval(timerInt);
+                            timerInt = null;
+                        }
+                        startTime = null;
+
+                        // 3. Reset form inputs & buttons
                         form.reset();
                         resetDate();
-                        Swal.fire({icon: 'success', title: 'Cleared!', timer: 1500, showConfirmButton: false});
+                        inInput.value = '';
+                        outInput.value = '';
+                        btnIn.disabled = false;
+                        btnOut.disabled = true;
+                        outInput.disabled = true;
+
+                        // 4. Reset live timer display
+                        liveDisplay.textContent = 'Elapsed: 00:00:00';
+
+                        // 5. Re-render empty table & total
+                        renderTable();
+
+                        Swal.fire({ icon: 'success', title: 'Cleared everything!', timer: 1500, showConfirmButton: false });
                     }
                 });
+            });
         });
 
     });
