@@ -1,0 +1,21 @@
+{
+  "short_name": "Sudu's App",
+  "name": "Sudu's Time Tracker",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/?utm_source=homescreen",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3367D6",
+  "orientation": "portrait-primary"
+}
